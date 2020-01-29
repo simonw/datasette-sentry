@@ -27,3 +27,16 @@ Add it to `metadata.json` like this:
     }
 }
 ```
+Settings in `metadata.json` are visible to anyone who visits the `/-/metadata` URL so this is a good place to take advantage of Datasette's [secret configuration values](https://datasette.readthedocs.io/en/stable/plugins.html#secret-configuration-values), in which case your configuration will look more like this:
+```json
+{
+    "plugins": {
+        "datasette-sentry": {
+            "dsn": {
+                "$env": "SENTRY_DSN"
+            }
+        }
+    }
+}
+```
+Then make a `SENTRY_DSN` environment variable available to Datasette.

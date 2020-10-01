@@ -6,6 +6,8 @@
 
 Datasette plugin for configuring Sentry for error reporting.
 
+ **This plugin does not work with current versions of Datasette.** See [issue #1](https://github.com/simonw/datasette-sentry/issues/1).
+ 
 ## Installation
 
     pip install datasette-sentry

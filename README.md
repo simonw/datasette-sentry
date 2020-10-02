@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/datasette-sentry.svg)](https://pypi.org/project/datasette-sentry/)
 [![CircleCI](https://circleci.com/gh/simonw/datasette-sentry.svg?style=svg)](https://circleci.com/gh/simonw/datasette-sentry)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/simonw/datasette-sentry/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/simonw/datasette-sentry/blob/main/LICENSE)
 
 Datasette plugin for configuring Sentry for error reporting.
 

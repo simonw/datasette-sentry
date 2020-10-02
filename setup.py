@@ -25,4 +25,9 @@ setup(
     py_modules=["datasette_sentry"],
     install_requires=["sentry-sdk"],
     extras_require={"test": ["pytest", "datasette"]},
+    classifiers=[
+        "License :: OSI Approved :: Apache Software License",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+    ],
 )

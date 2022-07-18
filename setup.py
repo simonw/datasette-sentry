@@ -23,8 +23,8 @@ setup(
     version=VERSION,
     entry_points={"datasette": ["sentry = datasette_sentry"]},
     py_modules=["datasette_sentry"],
-    install_requires=["sentry-sdk"],
-    extras_require={"test": ["pytest", "datasette"]},
+    install_requires=["sentry-sdk", "datasette>=0.62a1"],
+    extras_require={"test": ["pytest", "pytest-asyncio"]},
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python :: 3.7",

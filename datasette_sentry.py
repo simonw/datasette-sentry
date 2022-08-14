@@ -28,7 +28,7 @@ def handle_exception(exception):
 
 
 class CaptureTransport(sentry_sdk.transport.Transport):
-    "Transport that captures evenst in a list, mainly for testing"
+    "Transport that captures events in a list, mainly for testing"
 
     def __init__(self, datasette):
         self.datasette = datasette

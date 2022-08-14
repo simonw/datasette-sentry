@@ -5,9 +5,7 @@
 [![Tests](https://github.com/simonw/datasette-sentry/workflows/Test/badge.svg)](https://github.com/simonw/datasette-sentry/actions?query=workflow%3ATest)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/simonw/datasette-sentry/blob/main/LICENSE)
 
-Datasette plugin for configuring Sentry for error reporting.
-
- **This plugin does not work with current versions of Datasette.** See [issue #1](https://github.com/simonw/datasette-sentry/issues/1).
+Datasette plugin for configuring Sentry for error reporting
  
 ## Installation
 

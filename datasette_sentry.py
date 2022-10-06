@@ -1,5 +1,25 @@
 from datasette import hookimpl
+from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 import sentry_sdk
+
+
+@hookimpl
+def asgi_wrapper(datasette):
+    config = datasette.plugin_config("datasette-sentry") or {}
+    dsn = config.get("dsn")
+    if dsn is not None:
+        kwargs = dict(dsn=dsn)
+        if config.get("capture_events"):
+            kwargs["transport"] = CaptureTransport(datasette)
+        sentry_sdk.init(**kwargs)
+
+    def wrap_with_class(app):
+        if dsn is None:
+            return app
+        else:
+            return SentryAsgiMiddleware(app)
+
+    return wrap_with_class
 
 
 @hookimpl

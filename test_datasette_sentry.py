@@ -35,6 +35,15 @@ async def test_logs_errors_to_sentry(configured):
         assert response.status_code == 500
         if configured:
             assert len(ds._datasette_sentry_events) == 1
+            event = ds._datasette_sentry_events[0]
+            assert (
+                event["request"].items()
+                >= {
+                    "method": "GET",
+                    "query_string": None,
+                    "url": "http://localhost/error",
+                }.items()
+            )
         else:
             assert not hasattr(ds, "_datasette_sentry_events")
             assert not hasattr(ds, "_datasette_sentry_envelopes")

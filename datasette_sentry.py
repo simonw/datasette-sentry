@@ -11,6 +11,8 @@ def asgi_wrapper(datasette):
         kwargs = dict(dsn=dsn)
         if config.get("capture_events"):
             kwargs["transport"] = CaptureTransport(datasette)
+        if config.get("sample_rate") is not None:
+            kwargs["sample_rate"] = config["sample_rate"]
         sentry_sdk.init(**kwargs)
 
     def wrap_with_class(app):
@@ -20,17 +22,6 @@ def asgi_wrapper(datasette):
             return SentryAsgiMiddleware(app)
 
     return wrap_with_class
-
-
-@hookimpl
-def startup(datasette):
-    config = datasette.plugin_config("datasette-sentry") or {}
-    dsn = config.get("dsn")
-    if dsn is not None:
-        kwargs = dict(dsn=dsn)
-        if config.get("capture_events"):
-            kwargs["transport"] = CaptureTransport(datasette)
-        sentry_sdk.init(**kwargs)
 
 
 @hookimpl

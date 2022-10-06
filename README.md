@@ -41,3 +41,22 @@ Settings in `metadata.json` are visible to anyone who visits the `/-/metadata` U
 }
 ```
 Then make a `SENTRY_DSN` environment variable available to Datasette.
+
+## Configuration
+
+In addition to the `dsn` setting, you can also configure the Sentry [sample rate](https://docs.sentry.io/platforms/python/configuration/sampling/) by setting  `sample_rate` to a floating point number between 0 and 1.
+
+For example, to capture 25% of errors you would do this:
+
+```json
+{
+    "plugins": {
+        "datasette-sentry": {
+            "dsn": {
+                "$env": "SENTRY_DSN"
+            },
+            "sample_rate": 0.25
+        }
+    }
+}
+```

@@ -36,6 +36,8 @@ async def test_logs_errors_to_sentry(configured, sample_rate):
                 # Should not send to Sentry
                 assert not ds._datasette_sentry_events
             else:
+                # Should have captured an event (but not an envelope)
+                assert len(ds._datasette_sentry_envelopes) == 0
                 assert len(ds._datasette_sentry_events) == 1
                 event = ds._datasette_sentry_events[0]
                 assert (
@@ -51,3 +53,30 @@ async def test_logs_errors_to_sentry(configured, sample_rate):
             assert not hasattr(ds, "_datasette_sentry_envelopes")
     finally:
         pm.unregister(name="undo")
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("configured", (False, True))
+@pytest.mark.parametrize("traces_sample_rate", (None, 1.0, 0.0))
+async def test_tracing(configured, traces_sample_rate):
+    config = {
+        "enable_tracing": configured,
+        "capture_events": True,
+        "dsn": "https://demo@sentry.io/1234",
+    }
+    if traces_sample_rate is not None:
+        config["traces_sample_rate"] = traces_sample_rate
+    ds = Datasette(metadata={"plugins": {"datasette-sentry": config}})
+    await ds.invoke_startup()
+    response = await ds.client.get("/-/versions")
+    assert response.status_code == 200
+    if configured and traces_sample_rate != 0.0:
+        # Should have captured a trace envelope
+        assert len(ds._datasette_sentry_envelopes) == 1
+        envelope = ds._datasette_sentry_envelopes[0]
+        assert (
+            envelope.items[0].payload.json["transaction"]
+            == "http://localhost:None/-/versions"
+        )
+    else:
+        assert len(ds._datasette_sentry_envelopes) == 0

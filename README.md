@@ -8,9 +8,9 @@
 Datasette plugin for configuring Sentry for error reporting
  
 ## Installation
-
-    pip install datasette-sentry
-
+```bash
+pip install datasette-sentry
+```
 ## Usage
 
 This plugin only takes effect if your `metadata.json` file contains relevant top-level plugin configuration in a `"datasette-sentry"` configuration key.
@@ -56,6 +56,40 @@ For example, to capture 25% of errors you would do this:
                 "$env": "SENTRY_DSN"
             },
             "sample_rate": 0.25
+        }
+    }
+}
+```
+
+### Performance monitoring
+
+Sentry [Performance Monitoring](https://docs.sentry.io/product/performance/) records full traces of page for further analysis, in addition to tracking errors.
+
+You can enable that by adding "enable_tracing" to your plugin configuration:
+
+```json
+{
+    "plugins": {
+        "datasette-sentry": {
+            "dsn": {
+                "$env": "SENTRY_DSN"
+            },
+            "enable_tracing": true
+        }
+    }
+}
+```
+The default sample rate if you do this will be `1.0`, meaning every response will be traced. This can get expensive - you can adjust the tracing rate using `traces_sample_rate`. Set that to `0.1` to sample 10% of requests, for example:
+
+```json
+{
+    "plugins": {
+        "datasette-sentry": {
+            "dsn": {
+                "$env": "SENTRY_DSN"
+            },
+            "enable_tracing": true,
+            "traces_sample_rate": 0.1
         }
     }
 }

@@ -13,6 +13,11 @@ def asgi_wrapper(datasette):
             kwargs["transport"] = CaptureTransport(datasette)
         if config.get("sample_rate") is not None:
             kwargs["sample_rate"] = config["sample_rate"]
+        if config.get("enable_tracing"):
+            kwargs["enable_tracing"] = True
+            kwargs["traces_sample_rate"] = (
+                config["traces_sample_rate"] if "traces_sample_rate" in config else 1.0
+            )
         sentry_sdk.init(**kwargs)
 
     def wrap_with_class(app):
